@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 Juego de Sílabas ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+
+</head>
+
+<body>
+
+
+  <video autoplay muted loop class="video-background">
+    <source src="https://pin.it/4ooXWAaIN.mp4" type="video/mp4">
+
+  </video>
+
+  <div class="game-container">
+
+    <div id="welcomePage" class="welcome-section">
+      <h1 class="game-title">✨ ¡Bienvenido A Sílabas Al Rescate! 🚀</h1>
+      <div class="title-decoration">
+        <span class="star">⭐</span>
+        <span class="star">🌟</span>
+        <span class="star">⭐</span>
+      </div>
+
+      <p class="game-description">
+        
+        Una aventura llena de juegos, retos y diversión donde las sílabas son las protagonistas.
+        une, descubre y clasifica palabras mientras fortaleces tu conciencia silábica jugando y aprendiendo.
+
+        <br> 🎉
+      </p>
+
+      <div class="levels-info">
+        <div class="level-card level-1">
+          <div class="level-icon">🌱</div>
+          <h3>Nivel 1</h3>
+          <p>2 Sílabas</p>
+          <div class="difficulty">Fácil</div>
+        </div>
+
+        <div class="level-card level-2">
+          <div class="level-icon">🌿</div>
+          <h3>Nivel 2</h3>
+          <p>3 Sílabas</p>
+          <div class="difficulty">Intermedio</div>
+        </div>
+
+        <div class="level-card level-3">
+          <div class="level-icon">🌳</div>
+          <h3>Nivel 3</h3>
+          <p>4 Sílabas</p>
+          <div class="difficulty">Avanzado</div>
+        </div>
+
+        <div class="level-card level-4">
+          <div class="level-icon">🏆</div>
+          <h3>Nivel 4</h3>
+          <p>5 Sílabas</p>
+          <div class="difficulty">Experto</div>
+        </div>
+      </div>
+
+       <p class="game-description">
+        
+       👉Entra al mundo donde las sílabas cobran vida, ¡tú eres el héroe que las unirá!🌟
+        <br> 
+      </p>
+
+      
+
+      <button class="start-btn" onclick="startGame()">
+        <span class="btn-icon">🚀</span>
+        ¡Empezar a Jugar!
+        <span class="btn-icon">✨</span>
+      </button>
+
+      <div class="instructions">
+        <h3>📖 ¿Cómo jugar?</h3>
+        <div class="instruction-steps">
+          <div class="step">
+            <span class="step-number">1️⃣</span>
+            <span>Mira la imagen y adivina la palabra</span>
+          </div>
+          <div class="step">
+            <span class="step-number">2️⃣</span>
+            <span>Selecciona una casilla haciendo click</span>
+          </div>
+          <div class="step">
+            <span class="step-number">3️⃣</span>
+            <span>Click en la sílaba para colocarla</span>
+          </div>
+          <div class="step">
+            <span class="step-number">4️⃣</span>
+            <span>¡Completa la palabra ! 🎉</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 Tu gamePage se queda igual -->
+    <div id="gamePage" class="game-page">
+      <div class="header">
+        <div class="level-info" id="levelInfo">Nivel 1 - 2 Sílabas</div>
+        <div class="progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="word-counter" id="wordCounter">Palabra 1 de 3</div>
+      </div>
+
+      <div class="game-area">
+        <div class="word-display">
+          <div class="word-image" id="wordImage">🎯</div>
+        </div>
+        <div class="word-slots" id="wordSlots"></div>
+        <div class="syllables-area">
+          <div class="syllables" id="syllables"></div>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button class="btn btn-check" id="btnCheck" onclick="checkWord()">✅ Verificar</button>
+        <button class="btn btn-next hidden" id="btnNext" onclick="nextWord()">➡️ Siguiente</button>
+        <button class="btn btn-reset" onclick="resetWord()">🔄 Reiniciar</button>
+        <button class="btn btn-back" onclick="goToWelcome()">🏠 Inicio</button>
+      </div>
+
+      <div id="successMessage" class="success-message hidden">
+        🎉 ¡Excelente! Has formado la palabra correctamente ✨
+      </div>
+      <div id="errorMessage" class="error-message hidden">
+        <div class="sad-face">😢</div>
+        ¡Ups! Inténtalo de nuevo. ¡Tú puedes! 💪
+      </div>
+      <div id="gameComplete" class="game-complete hidden">
+        🏆 ¡Felicitaciones! Has completado todos los niveles 🎊
+        <br><br>
+        <button class="btn btn-restart" onclick="restartGame()">🚀 Jugar de Nuevo</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
