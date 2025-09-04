@@ -1,41 +1,6 @@
-
-// Palabras ampliadas para juego 4 (25+ palabras)
-const palabrasJuego4 = [
-    // 1 sílaba
-    { palabra: "SOL", emoji: "☀️", silabas: 1 },
-    { palabra: "PAN", emoji: "🍞", silabas: 1 },
-    { palabra: "MAR", emoji: "🌊", silabas: 1 },
-    { palabra: "VOZ", emoji: "🗣️", silabas: 1 },
-    { palabra: "LUZ", emoji: "💡", silabas: 1 },
-    { palabra: "PEZ", emoji: "🐟", silabas: 1 },
-    // 2 sílabas
-    { palabra: "CASA", emoji: "🏠", silabas: 2 },
-    { palabra: "GATO", emoji: "🐱", silabas: 2 },
-    { palabra: "LUNA", emoji: "🌙", silabas: 2 },
-    { palabra: "MESA", emoji: "🪑", silabas: 2 },
-    { palabra: "ROSA", emoji: "🌹", silabas: 2 },
-    { palabra: "PATO", emoji: "🦆", silabas: 2 },
-    { palabra: "VACA", emoji: "🐄", silabas: 2 },
-    { palabra: "NUBE", emoji: "☁️", silabas: 2 },
-    // 3 sílabas
-    { palabra: "PELOTA", emoji: "⚽", silabas: 3 },
-    { palabra: "BANANA", emoji: "🍌", silabas: 3 },
-    { palabra: "CAMISA", emoji: "👕", silabas: 3 },
-    { palabra: "ZAPATO", emoji: "👟", silabas: 3 },
-    { palabra: "CONEJO", emoji: "🐰", silabas: 3 },
-    { palabra: "TOMATE", emoji: "🍅", silabas: 3 },
-    { palabra: "CEBOLLA", emoji: "🧅", silabas: 3 },
-    { palabra: "PATATA", emoji: "🥔", silabas: 3 },
-    { palabra: "PIJAMA", emoji: "👕", silabas: 3 },
-    // 4 sílabas
-    { palabra: "MARIPOSA", emoji: "🦋", silabas: 4 },
-    { palabra: "ELEFANTE", emoji: "🐘", silabas: 4 },
-    { palabra: "CHOCOLATE", emoji: "🍫", silabas: 4 },
-    { palabra: "CARAMELO", emoji: "🍬", silabas: 4 },
-    { palabra: "MEDICINA", emoji: "💊", silabas: 4 },
-    { palabra: "BICICLETA", emoji: "🚲", silabas: 4 },
-    { palabra: "TELÉFONO", emoji: "📞", silabas: 4 }
-];
+// =============================================
+// SISTEMA DE JUEGOS CONECTADOS Y MEJORADOS
+// =============================================
 
 // VARIABLES GLOBALES
 let currentGame = 1;
@@ -54,6 +19,8 @@ let separators = [];
 let game2Words = [];
 let game2Index = 0;
 let game2Correct = 0;
+let game2Letters = [];
+let game2UserSequence = [];
 
 let game3Words = [];
 let game3Index = 0;
@@ -64,7 +31,191 @@ let game4Words = [];
 let game4Index = 0;
 let game4Correct = 0;
 
-// FUNCIONES PARA MOSTRAR PÁGINAS DE INTRODUCCIÓN
+// Variable para controlar el flujo de juegos
+let gameFlow = false;
+
+// DATOS DE LOS JUEGOS
+const palabrasData = {
+  1: [
+    { palabra: "casa",    silabas: ["ca","sa"], emoji: "🏠" },
+    { palabra: "gato",    silabas: ["ga","to"], emoji: "🐱" },
+    { palabra: "luna",    silabas: ["lu","na"], emoji: "🌙" },
+    { palabra: "agua",    silabas: ["a","gua"], emoji: "💧" },
+    { palabra: "silla",   silabas: ["si","lla"], emoji: "🪑" },  
+    { palabra: "pato",    silabas: ["pa","to"], emoji: "🦆" },
+    { palabra: "rosa",    silabas: ["ro","sa"], emoji: "🌹" },
+    { palabra: "boca",    silabas: ["bo","ca"], emoji: "👄" },
+    { palabra: "león",    silabas: ["le","ón"], emoji: "🦁" },
+    { palabra: "pera",    silabas: ["pe","ra"], emoji: "🍐" },
+    { palabra: "vaca",    silabas: ["va","ca"], emoji: "🐄" },
+    { palabra: "dedo",    silabas: ["de","do"], emoji: "👉" },
+    { palabra: "cama",    silabas: ["ca","ma"], emoji: "🛏️" },
+    { palabra: "nube",    silabas: ["nu","be"], emoji: "☁️" },
+    { palabra: "perro",   silabas: ["pe","rro"], emoji: "🐕" },
+    { palabra: "hoja",    silabas: ["ho","ja"], emoji: "🍃" },
+    { palabra: "ratón",   silabas: ["ra","tón"], emoji: "🐭" },
+    { palabra: "tierra",  silabas: ["tie","rra"], emoji: "🌍" },
+    { palabra: "niño",    silabas: ["ni","ño"], emoji: "👦" },  
+    { palabra: "llave",   silabas: ["lla","ve"], emoji: "🔑" },
+    { palabra: "manos",   silabas: ["ma","no"], emoji: "✋" },
+    { palabra: "barco",   silabas: ["bar","co"], emoji: "🚢" },
+    { palabra: "nariz",   silabas: ["na","riz"], emoji: "👃" },
+    { palabra: "lente",   silabas: ["len","te"], emoji: "🔍" },
+    { palabra: "carro",   silabas: ["ca","rro"], emoji: "🚗" },
+    { palabra: "sueño",   silabas: ["sue","ño"], emoji: "💤" },
+    { palabra: "banco",   silabas: ["ban","co"], emoji: "🏦" },
+    { palabra: "globo",   silabas: ["glo","bo"], emoji: "🎈" },
+    { palabra: "dulce",   silabas: ["dul","ce"], emoji: "🍭" },
+    { palabra: "parque",  silabas: ["par","que"], emoji: "🏞️" },
+    { palabra: "plato",   silabas: ["pla","to"], emoji: "🍽️" },
+    { palabra: "ratón",        silabas: ["ra","tón"],      emoji: "🐭" }
+  ],
+  2: [
+    { palabra: "pelota",       silabas: ["pe","lo","ta"],   emoji: "⚽" },
+    { palabra: "banana",       silabas: ["ba","na","na"],   emoji: "🍌" },
+    { palabra: "camisa",       silabas: ["ca","mi","sa"],   emoji: "👕" },
+    { palabra: "ventana",      silabas: ["ven","ta","na"],   emoji: "🪟" },
+    { palabra: "cabeza",       silabas: ["ca","be","za"],   emoji: "👤" },
+    { palabra: "zapato",       silabas: ["za","pa","to"],   emoji: "👟" },
+    { palabra: "paloma",       silabas: ["pa","lo","ma"],   emoji: "🕊️" },
+    { palabra: "conejo",       silabas: ["co","ne","jo"],   emoji: "🐰" },
+    { palabra: "tomate",       silabas: ["to","ma","te"],   emoji: "🍅" },
+    { palabra: "naranja",      silabas: ["na","ran","ja"],  emoji: "🍊" },
+    { palabra: "cebolla",      silabas: ["ce","bo","lla"],  emoji: "🧅" },
+    { palabra: "patata",       silabas: ["pa","ta","ta"],   emoji: "🥔" },
+    { palabra: "comida",       silabas: ["co","mi","da"],   emoji: "🍽️" },
+    { palabra: "abrigo",       silabas: ["a","bri","go"],   emoji: "🧥" },
+   
+  ],
+  3: [
+    { palabra: "mariposa",    silabas: ["ma","ri","po","sa"], emoji: "🦋" },
+    { palabra: "elefante",    silabas: ["e","le","fan","te"], emoji: "🐘" },
+    { palabra: "dinosaurio",  silabas: ["di","no","sau","rio"], emoji: "🦕" },
+    { palabra: "hamburguesa", silabas: ["ham","bur","gue","sa"], avatar: "🍔" },
+    { palabra: "medicina",    silabas: ["me","di","ci","na"], emoji: "💊" },
+    { palabra: "bicicleta",   silabas: ["bi","ci","cle","ta"], emoji: "🚲" },
+    { palabra: "policía",     silabas: ["po","li","cí","a"], emoji: "👮" },
+    { palabra: "teléfono",    silabas: ["te","lé","fo","no"], emoji: "📞" },
+    { palabra: "chocolate",   silabas: ["cho","co","la","te"], emoji: "🍫" },
+    { palabra: "hospital",    silabas: ["hos","pi","tal"], emoji: "🏥" },
+    { palabra: "caramelo",    silabas: ["ca","ra","me","lo"], emoji: "🍬" },
+    { palabra: "pijama",      silabas: ["pi","ja","ma"], emoji: "👕" },
+    { palabra: "fantasma",    silabas: ["fan","tas","ma"], emoji: "👻" }
+  ],
+  4: [
+    { palabra: "refrigerador", silabas: ["re","fri","ge","ra","dor"], emoji: "❄️" },
+    { palabra: "computadora",  silabas: ["com","pu","ta","do","ra"], emoji: "💻" },
+    { palabra: "biblioteca",   silabas: ["bi","blio","te","ca"], emoji: "📚" },
+    { palabra: "televisión",   silabas: ["te","le","vi","sión"], emoji: "📺" },
+    { palabra: "automóvil",    silabas: ["au","to","mó","vil"], emoji: "🚗" },
+    { palabra: "electricidad", silabas: ["e","lec","tri","ci","dad"], emoji: "⚡" },
+    { palabra: "helicoptero",  silabas: ["he","li","cóp","te","ro"], emoji: "🚁" },
+    { palabra: "escalera",     silabas: ["es","ca","le","ra"], emoji: "🪜" },
+    { palabra: "calabaza",     silabas: ["ca","la","ba","za"], emoji: "🎃" },         
+    { palabra: "carretera",    silabas: ["ca","rre","te","ra"], emoji: "🛣️" },
+    { palabra: "instrumento",  silabas: ["ins","tru","men","to"], emoji: "🎸" }
+  ]
+};
+
+
+const palabrasJuego2 = [
+  
+  { palabra: "CASA",    silabas: ["CA", "SA"] },
+  { palabra: "GATO",    silabas: ["GA", "TO"] },
+  { palabra: "LUNA",    silabas: ["LU", "NA"] },
+  { palabra: "MESA",    silabas: ["ME", "SA"] },
+  { palabra: "ROSA",    silabas: ["RO", "SA"] },
+  { palabra: "AZUL",    silabas: ["A", "ZUL"] },
+  { palabra: "BESO",    silabas: ["BE", "SO"] },
+  { palabra: "COCHE",   silabas: ["CO", "CHE"] },
+  { palabra: "FRESA",   silabas: ["FRE", "SA"] },
+  { palabra: "HIJO",    silabas: ["HI", "JO"] },
+  { palabra: "PUERTA",  silabas: ["PUER", "TA"] },
+  { palabra: "SALSA",   silabas: ["SAL", "SA"] },
+  { palabra: "NIÑO",   silabas: ["NI", "ÑO"] },
+  { palabra: "JABÓN",   silabas: ["JA", "BÓN"] },
+  { palabra: "PELOTA",     silabas: ["PE", "LO", "TA"] },
+  { palabra: "BANANA",     silabas: ["BA", "NA", "NA"] },
+  { palabra: "CAMISA",     silabas: ["CA", "MI", "SA"] },
+  { palabra: "CONEJO",     silabas: ["CO", "NE", "JO"] },
+  { palabra: "HOSPITAL",   silabas: ["HOS", "PI", "TAL"] },
+  { palabra: "CAMINAR",    silabas: ["CA", "MI", "NAR"] },
+  { palabra: "CHAQUETA",   silabas: ["CHA", "QUE", "TA"] },
+  { palabra: "TOCINO",     silabas: ["TO", "CI", "NO"] },
+  { palabra: "MIEDO",      silabas: ["MIE", "DO"] },
+  { palabra: "AMOR",       silabas: ["A", "MOR"] },
+  { palabra: "MARIPOSA",       silabas: ["MA", "RI", "PO", "SA"] },
+  { palabra: "ELEFANTE",       silabas: ["E", "LE", "FAN", "TE"] },
+  { palabra: "CHOCOLATE",      silabas: ["CHO", "CO", "LA", "TE"] },
+  { palabra: "CARAMELO",       silabas: ["CA", "RA", "ME", "LO"] },
+  { palabra: "ALEGRÍA",        silabas: ["A", "LE", "GRÍ", "A"] },
+  { palabra: "CARRETERA",      silabas: ["CA", "RRE", "TE", "RA"] },
+  { palabra: "BOLÍGRAFO",      silabas: ["BO", "LÍ", "GRA", "FO"] },
+];
+
+
+const palabrasJuego3 = [
+  { palabra: "CASA",       silabas: ["ca","sa"],        emoji: "🏠", inicio: "ca", final: "sa" },
+  { palabra: "GATO",       silabas: ["ga","to"],        emoji: "🐱", inicio: "ga", final: "to" },
+  { palabra: "LUNA",       silabas: ["lu","na"],        emoji: "🌙", inicio: "lu", final: "na" },
+  { palabra: "PATO",       silabas: ["pa","to"],        emoji: "🦆", inicio: "pa", final: "to" },
+  { palabra: "ROSA",       silabas: ["ro","sa"],        emoji: "🌹", inicio: "ro", final: "sa" },
+  { palabra: "VACA",       silabas: ["va","ca"],        emoji: "🐄", inicio: "va", final: "ca" },
+  { palabra: "PELOTA",     silabas: ["pe","lo","ta"],   emoji: "⚽", inicio: "pe", final: "ta" },
+
+  // Nuevas
+  { palabra: "CAMINAR",    silabas: ["ca","mi","nar"],  emoji: "🚶", inicio: "ca", final: "nar" },
+  { palabra: "CHAQUETA",   silabas: ["cha","que","ta"], emoji: "🧥", inicio: "cha", final: "ta" },
+  { palabra: "TOCINO",     silabas: ["to","ci","no"],   emoji: "🥓", inicio: "to", final: "no" },
+  { palabra: "BANANA",     silabas: ["ba","na","na"],   emoji: "🍌", inicio: "ba", final: "na" },
+  { palabra: "CAMISA",     silabas: ["ca","mi","sa"],   emoji: "👕", inicio: "ca", final: "sa" },
+  { palabra: "ZAPATO",     silabas: ["za","pa","to"],   emoji: "👟", inicio: "za", final: "to" },
+  { palabra: "CONEJO",     silabas: ["co","ne","jo"],   emoji: "🐰", inicio: "co", final: "jo" },
+  { palabra: "TOMATE",     silabas: ["to","ma","te"],   emoji: "🍅", inicio: "to", final: "te" },
+
+  { palabra: "ALEGRÍA",      silabas: ["a","le","grí","a"],     emoji: "😊", inicio: "a", final: "a" },
+  { palabra: "CARRETERA",    silabas: ["ca","rre","te","ra"],   emoji: "🛣️", inicio: "ca", final: "ra" },
+  { palabra: "BOLÍGRAFO",    silabas: ["bo","lí","gra","fo"],   emoji: "🖊️", inicio: "bo", final: "fo" },
+
+];
+
+
+const palabrasJuego4 = [
+  { palabra: "SOL", emoji: "☀️", silabas: 1 },
+  { palabra: "PAN", emoji: "🍞", silabas: 1 },
+  { palabra: "MAR", emoji: "🌊", silabas: 1 },
+  { palabra: "VOZ", emoji: "🗣️", silabas: 1 },
+  { palabra: "LUZ", emoji: "💡", silabas: 1 },
+  { palabra: "PEZ", emoji: "🐟", silabas: 1 },
+  { palabra: "CASA", emoji: "🏠", silabas: 2 },
+  { palabra: "GATO", emoji: "🐱", silabas: 2 },
+  { palabra: "LUNA", emoji: "🌙", silabas: 2 },
+  { palabra: "ROSA", emoji: "🌹", silabas: 2 },
+  { palabra: "PATO", emoji: "🦆", silabas: 2 },
+  { palabra: "VACA", emoji: "🐄", silabas: 2 },
+  { palabra: "NUBE", emoji: "☁️", silabas: 2 },
+  { palabra: "PELOTA", emoji: "⚽", silabas: 3 },
+  { palabra: "BANANA", emoji: "🍌", silabas: 3 },
+  { palabra: "CAMISA", emoji: "👕", silabas: 3 },
+  { palabra: "ZAPATO", emoji: "👟", silabas: 3 },
+  { palabra: "CONEJO", emoji: "🐰", silabas: 3 },
+  { palabra: "TOMATE", emoji: "🍅", silabas: 3 },
+  { palabra: "CEBOLLA", emoji: "🧅", silabas: 3 },
+  { palabra: "PATATA", emoji: "🥔", silabas: 3 },
+  { palabra: "PIJAMA", emoji: "👕", silabas: 3 },
+  { palabra: "MARIPOSA", emoji: "🦋", silabas: 4 },
+  { palabra: "ELEFANTE", emoji: "🐘", silabas: 4 },
+  { palabra: "CHOCOLATE", emoji: "🍫", silabas: 4 },
+  { palabra: "CARAMELO", emoji: "🍬", silabas: 4 },
+  { palabra: "MEDICINA", emoji: "💊", silabas: 4 },
+  { palabra: "BICICLETA", emoji: "🚲", silabas: 4 },
+  { palabra: "TELÉFONO", emoji: "📞", silabas: 4 }
+];
+
+
+// =============================================
+// FUNCIONES PARA NAVEGACIÓN ENTRE JUEGOS
+// =============================================
 function showGameIntro(gameNumber) {
     document.getElementById('welcomePage').style.display = 'none';
     
@@ -74,6 +225,7 @@ function showGameIntro(gameNumber) {
     }
     
     document.getElementById(`game${gameNumber}Intro`).style.display = 'block';
+    changeBackground(gameNumber);
 }
 
 function goToWelcome() {
@@ -84,8 +236,9 @@ function goToWelcome() {
         document.getElementById(`game${i}Page`).style.display = 'none';
     }
     
-    // Reset variables
+    changeBackground('welcome');
     resetAllGameVariables();
+    gameFlow = false;
 }
 
 function resetAllGameVariables() {
@@ -101,7 +254,6 @@ function resetAllGameVariables() {
     separators = [];
 }
 
-// FUNCIONES GENERALES
 function startGame(gameNumber) {
     currentGame = gameNumber;
     
@@ -111,6 +263,7 @@ function startGame(gameNumber) {
     }
     
     document.getElementById(`game${gameNumber}Page`).style.display = 'block';
+    changeBackground(gameNumber);
     
     switch(gameNumber) {
         case 1:
@@ -128,6 +281,118 @@ function startGame(gameNumber) {
     }
 }
 
+function startGameFlow() {
+    gameFlow = true;
+    currentGame = 1;
+    startGame(1);
+}
+
+function showGameCompletionModal(gameNumber) {
+    if (gameFlow && gameNumber < 4) {
+        const nextGame = gameNumber + 1;
+        const gameNames = {
+            1: "Forma la Palabra",
+            2: "Separa en Sílabas", 
+            3: "¿Con Qué Empieza?",
+            4: "La Pecera Silábica"
+        };
+        
+        showSimpleNotification(
+            `¡Felicidades! Completaste ${gameNames[gameNumber]}`, 
+            "🎉", 
+            () => {
+                showNextGameTransition(nextGame, gameNames[nextGame]);
+            }
+        );
+    } else if (gameFlow && gameNumber === 4) {
+        showModal(
+            '¡INCREÍBLE! Completaste todos los juegos. ¡Eres un experto en sílabas!', 
+            "🏆👑", 
+            () => {
+                createEnhancedConfetti();
+                setTimeout(() => {
+                    goToWelcome();
+                }, 3000);
+            }
+        );
+    } else {
+        showModal(
+            '¡Felicitaciones! Has completado este juego', 
+            "🎉", 
+            () => {
+                goToWelcome();
+            }
+        );
+    }
+}
+
+function showNextGameTransition(nextGameNumber, nextGameName) {
+    const transitionModal = document.createElement('div');
+    transitionModal.id = 'transitionModal';
+    transitionModal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+    `;
+    
+    const transitionContent = document.createElement('div');
+    transitionContent.style.cssText = `
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px;
+        border-radius: 25px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        max-width: 500px;
+        animation: slideIn 0.5s ease-out;
+    `;
+    
+    transitionContent.innerHTML = `
+        <div style="font-size: 60px; margin-bottom: 20px;">🎯</div>
+        <h2 style="font-size: 28px; margin-bottom: 15px;">¡Siguiente Aventura!</h2>
+        <p style="font-size: 20px; margin-bottom: 30px;">${nextGameName}</p>
+        <button id="continueBtn" style="
+            font-size: 18px;
+            padding: 15px 30px;
+            background: #00b894;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+        ">Continuar ➡️</button>
+    `;
+    
+    transitionModal.appendChild(transitionContent);
+    document.body.appendChild(transitionModal);
+    
+    document.getElementById('continueBtn').onclick = () => {
+        document.body.removeChild(transitionModal);
+        startGame(nextGameNumber);
+    };
+    
+    const btn = document.getElementById('continueBtn');
+    btn.onmouseover = () => {
+        btn.style.transform = 'scale(1.1)';
+        btn.style.background = '#00a085';
+    };
+    btn.onmouseout = () => {
+        btn.style.transform = 'scale(1)';
+        btn.style.background = '#00b894';
+    };
+}
+
+// =============================================
+// FUNCIONES AUXILIARES
+// =============================================
 function shuffleArray(array) {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -159,6 +424,31 @@ function createConfetti() {
                 }
             }, 5000);
         }, i * 30);
+    }
+}
+
+function createEnhancedConfetti() {
+    const colors = ['#FF6B9D', '#4ECDC4', '#45B7D1', '#FFEAA7', '#6C5CE7', '#00B894', '#FF7675', '#A29BFE', '#FD79A8', '#FDCB6E'];
+    
+    for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.animationDelay = '0s';
+            confetti.style.animationDuration = Math.random() * 3 + 3 + 's';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '20%';
+            confetti.style.width = Math.random() * 15 + 10 + 'px';
+            confetti.style.height = confetti.style.width;
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                if (confetti.parentNode) {
+                    confetti.remove();
+                }
+            }, 6000);
+        }, i * 40);
     }
 }
 
@@ -262,7 +552,7 @@ function selectSlot(index) {
 function selectSyllable(syllable, index) {
     if (usedSyllables.includes(index)) return;
     if (selectedSlot === null) {
-        showModal('Primero selecciona una casilla', "👉");
+       showErrorNotification('Primero selecciona una casilla', "👉");
         return;
     }
 
@@ -286,23 +576,22 @@ function checkWord() {
     const allFilled = slots.every(slot => slot.filled);
     
     if (!allFilled) {
-        showModal('Completa todas las casillas', "📝");
+        showErrorNotification('Completa todas las casillas', "📝");
         return;
     }
     
     const userWord = slots.map(slot => slot.syllable);
     const isCorrect = JSON.stringify(userWord) === JSON.stringify(currentWord.silabas);
     
-    if (isCorrect) {
-        showModal('¡Excelente! Has formado la palabra correctamente', "🎉", () => {
-            showSuccess();
-            correctWords++;
-        });
-    } else {
-        showModal('¡Inténtalo de nuevo! Tú puedes', "💪", () => {
-            resetWord();
-        });
-    }
+   if (isCorrect) {
+    showSimpleNotification('¡Excelente! Palabra correcta', "🎉");
+    createConfetti();
+    showSuccess();
+    correctWords++;
+} else {
+     showErrorNotification('¡Inténtalo de nuevo! Tú puedes', "💪");
+    resetWord();
+}
 }
 
 function showSuccess() {
@@ -344,9 +633,7 @@ function completeLevel() {
             });
         }, 1000);
     } else {
-        showModal('¡Felicitaciones! Has completado todos los niveles', "🏆", () => {
-            goToWelcome();
-        });
+        showGameCompletionModal(1);
     }
 }
 
@@ -357,196 +644,330 @@ function initGame2() {
     game2Words = shuffleArray([...palabrasJuego2]).slice(0, 10);
     game2Index = 0;
     game2Correct = 0;
-    separators = [];
+    game2Letters = [];
+    game2UserSequence = [];
     loadWord2();
 }
 
 function loadWord2() {
     if (game2Index >= game2Words.length) {
-        showModal('¡Felicitaciones! Has completado el juego de separación', "🐛🎉", () => {
-            goToWelcome();
-        });
+        showGameCompletionModal(2);
         return;
     }
 
     const word = game2Words[game2Index];
-    document.getElementById('wordToSeparate').textContent = word.palabra;
-    document.getElementById('separationArea').innerHTML = '';
-    document.getElementById('wormSegments').innerHTML = '';
+    game2Letters = [];
+    game2UserSequence = [];
     
+    for (let i = 0; i < word.palabra.length; i++) {
+        game2Letters.push({
+            letter: word.palabra[i],
+            used: false,
+            index: i
+        });
+    }
+    
+    createLetterButtons();
+    createBuildingArea();
     resetUI2();
     updateUI2();
-    createWordWithButtons();
-    separators = [];
 }
 
-function resetUI2() {
-    document.getElementById('btnNext2').classList.add('hidden');
-    document.getElementById('btnCheck2').classList.remove('hidden');
-}
-
-function updateUI2() {
-    document.getElementById('progressBar2').style.width = (game2Correct / game2Words.length) * 100 + '%';
-    document.getElementById('wordCounter2').textContent = `Palabra ${game2Index + 1} de ${game2Words.length}`;
-}
-
-function createWordWithButtons() {
+function createLetterButtons() {
     const word = game2Words[game2Index];
-    const wordContainer = document.getElementById('wordToSeparate');
-    wordContainer.innerHTML = '';
-    wordContainer.style.display = 'flex';
-    wordContainer.style.alignItems = 'center';
-    wordContainer.style.justifyContent = 'center';
-    wordContainer.style.gap = '8px';
-    wordContainer.style.flexWrap = 'wrap';
+    const lettersContainer = document.getElementById('wordToSeparate');
+    lettersContainer.innerHTML = '';
+    lettersContainer.style.display = 'flex';
+    lettersContainer.style.alignItems = 'center';
+    lettersContainer.style.justifyContent = 'center';
+    lettersContainer.style.gap = '15px';
+    lettersContainer.style.flexWrap = 'wrap';
+    lettersContainer.style.marginBottom = '30px';
     
-    for (let i = 0; i < word.palabra.length; i++) {
-        const letter = document.createElement('span');
-        letter.textContent = word.palabra[i];
-        letter.className = 'word-letter';
-        letter.style.fontSize = '48px';
-        letter.style.fontWeight = 'bold';
-        letter.style.color = '#333';
-        letter.style.background = 'rgba(255, 255, 255, 0.9)';
-        letter.style.padding = '10px 15px';
-        letter.style.borderRadius = '15px';
-        letter.style.border = '3px solid #ffeaa7';
-        wordContainer.appendChild(letter);
+    game2Letters.forEach((letterObj, index) => {
+        const letterBtn = document.createElement('button');
+        letterBtn.textContent = letterObj.letter;
+        letterBtn.className = 'letter-btn';
+        letterBtn.dataset.index = index;
+        letterBtn.style.fontSize = '36px';
+        letterBtn.style.fontWeight = 'bold';
+        letterBtn.style.color = '#333';
+        letterBtn.style.background = 'linear-gradient(145deg, #ffeaa7, #fdcb6e)';
+        letterBtn.style.padding = '15px 20px';
+        letterBtn.style.borderRadius = '15px';
+        letterBtn.style.border = '3px solid #fdcb6e';
+        letterBtn.style.cursor = 'pointer';
+        letterBtn.style.transition = 'all 0.3s ease';
+        letterBtn.style.boxShadow = '0 6px 15px rgba(253, 203, 110, 0.4)';
+        letterBtn.style.minWidth = '60px';
+        letterBtn.style.minHeight = '60px';
         
-        if (i < word.palabra.length - 1) {
-            const separator = document.createElement('button');
-            separator.textContent = '✂️';
-            separator.className = 'separator-btn';
-            separator.style.fontSize = '32px';
-            separator.style.background = '#ff6b6b';
-            separator.style.border = 'none';
-            separator.style.borderRadius = '50%';
-            separator.style.width = '60px';
-            separator.style.height = '60px';
-            separator.style.cursor = 'pointer';
-            separator.style.transition = 'all 0.3s ease';
-            separator.style.boxShadow = '0 4px 15px rgba(255, 107, 107, 0.4)';
-            separator.dataset.position = i;
-            
-            separator.addEventListener('click', () => toggleSeparator(i, separator));
-            separator.addEventListener('mouseover', () => {
-                separator.style.transform = 'scale(1.2)';
-                separator.style.background = '#e55656';
-            });
-            separator.addEventListener('mouseout', () => {
-                if (!separators.includes(i)) {
-                    separator.style.transform = 'scale(1)';
-                    separator.style.background = '#ff6b6b';
-                }
-            });
-            
-            wordContainer.appendChild(separator);
+        letterBtn.addEventListener('click', () => selectLetter(index));
+        letterBtn.addEventListener('mouseover', () => {
+            if (!letterObj.used) {
+                letterBtn.style.transform = 'scale(1.15) translateY(-5px)';
+                letterBtn.style.boxShadow = '0 10px 25px rgba(253, 203, 110, 0.6)';
+            }
+        });
+        letterBtn.addEventListener('mouseout', () => {
+            if (!letterObj.used) {
+                letterBtn.style.transform = 'scale(1) translateY(0px)';
+                letterBtn.style.boxShadow = '0 6px 15px rgba(253, 203, 110, 0.4)';
+            }
+        });
+        
+        lettersContainer.appendChild(letterBtn);
+    });
+    
+    const separatorBtn = document.createElement('button');
+    separatorBtn.textContent = '-';
+    separatorBtn.className = 'separator-btn-new';
+    separatorBtn.style.fontSize = '40px';
+    separatorBtn.style.fontWeight = 'bold';
+    separatorBtn.style.color = 'white';
+    separatorBtn.style.background = 'linear-gradient(145deg, #ff6b6b, #e55656)';
+    separatorBtn.style.padding = '15px 25px';
+    separatorBtn.style.borderRadius = '15px';
+    separatorBtn.style.border = '3px solid #e55656';
+    separatorBtn.style.cursor = 'pointer';
+    separatorBtn.style.transition = 'all 0.3s ease';
+    separatorBtn.style.boxShadow = '0 6px 15px rgba(255, 107, 107, 0.4)';
+    separatorBtn.style.minWidth = '70px';
+    separatorBtn.style.minHeight = '60px';
+    
+    separatorBtn.addEventListener('click', () => addSeparator());
+    separatorBtn.addEventListener('mouseover', () => {
+        separatorBtn.style.transform = 'scale(1.15) translateY(-5px)';
+        separatorBtn.style.boxShadow = '0 10px 25px rgba(255, 107, 107, 0.6)';
+    });
+    separatorBtn.addEventListener('mouseout', () => {
+        separatorBtn.style.transform = 'scale(1) translateY(0px)';
+        separatorBtn.style.boxShadow = '0 6px 15px rgba(255, 107, 107, 0.4)';
+    });
+    
+    lettersContainer.appendChild(separatorBtn);
+}
+
+function createBuildingArea() {
+    let buildingArea = document.getElementById('buildingArea');
+    if (!buildingArea) {
+        buildingArea = document.createElement('div');
+        buildingArea.id = 'buildingArea';
+        buildingArea.style.minHeight = '100px';
+        buildingArea.style.background = 'rgba(255, 255, 255, 0.9)';
+        buildingArea.style.borderRadius = '20px';
+        buildingArea.style.border = '3px dashed #74b9ff';
+        buildingArea.style.padding = '20px';
+        buildingArea.style.margin = '20px 0';
+        buildingArea.style.display = 'flex';
+        buildingArea.style.alignItems = 'center';
+        buildingArea.style.justifyContent = 'center';
+        buildingArea.style.gap = '10px';
+        buildingArea.style.flexWrap = 'wrap';
+        
+        const separationArea = document.getElementById('separationArea');
+        separationArea.parentNode.insertBefore(buildingArea, separationArea);
+    }
+    
+    updateBuildingArea();
+}
+
+function selectLetter(index) {
+    const letterObj = game2Letters[index];
+    const letterBtn = document.querySelector(`[data-index="${index}"]`);
+    
+    if (letterObj.used) return;
+    
+    letterObj.used = true;
+    letterBtn.style.background = 'linear-gradient(145deg, #ddd, #bbb)';
+    letterBtn.style.color = '#666';
+    letterBtn.style.cursor = 'not-allowed';
+    letterBtn.style.transform = 'scale(0.9)';
+    letterBtn.style.opacity = '0.5';
+    
+    game2UserSequence.push({
+        type: 'letter',
+        value: letterObj.letter,
+        originalIndex: index
+    });
+    
+    updateBuildingArea();
+    checkAllLettersUsed();
+}
+
+function addSeparator() {
+    if (game2UserSequence.length === 0) {
+        showSimpleNotification('Primero selecciona una letra', "📝");
+        return;
+    }
+    
+    const lastItem = game2UserSequence[game2UserSequence.length - 1];
+    if (lastItem.type === 'separator') {
+       showErrorNotification('No puedes poner dos separadores seguidos', "⚠️");
+        return;
+    }
+    
+    game2UserSequence.push({
+        type: 'separator',
+        value: '-'
+    });
+    
+    updateBuildingArea();
+}
+
+function updateBuildingArea() {
+    const buildingArea = document.getElementById('buildingArea');
+    buildingArea.innerHTML = '';
+    
+    if (game2UserSequence.length === 0) {
+        const placeholder = document.createElement('div');
+        placeholder.textContent = 'Selecciona las letras para formar la palabra...';
+        placeholder.style.color = '#74b9ff';
+        placeholder.style.fontSize = '18px';
+        placeholder.style.fontStyle = 'italic';
+        buildingArea.appendChild(placeholder);
+        return;
+    }
+    
+    game2UserSequence.forEach((item, index) => {
+        const element = document.createElement('div');
+        element.textContent = item.value;
+        element.className = item.type === 'letter' ? 'built-letter' : 'built-separator';
+        
+        if (item.type === 'letter') {
+            element.style.fontSize = '32px';
+            element.style.fontWeight = 'bold';
+            element.style.color = '#333';
+            element.style.background = 'linear-gradient(145deg, #a8e6cf, #88d8a3)';
+            element.style.padding = '12px 18px';
+            element.style.borderRadius = '12px';
+            element.style.border = '2px solid #88d8a3';
+            element.style.boxShadow = '0 4px 10px rgba(136, 216, 163, 0.3)';
+        } else {
+            element.style.fontSize = '28px';
+            element.style.fontWeight = 'bold';
+            element.style.color = '#e55656';
+            element.style.background = 'rgba(255, 107, 107, 0.1)';
+            element.style.padding = '8px 12px';
+            element.style.borderRadius = '8px';
         }
-    }
+        
+        element.style.cursor = 'pointer';
+        element.style.transition = 'all 0.3s ease';
+        
+        element.addEventListener('click', () => removeFromSequence(index));
+        element.addEventListener('mouseover', () => {
+            element.style.transform = 'scale(1.1)';
+            element.style.opacity = '0.8';
+        });
+        element.addEventListener('mouseout', () => {
+            element.style.transform = 'scale(1)';
+            element.style.opacity = '1';
+        });
+        
+        buildingArea.appendChild(element);
+    });
 }
 
-function toggleSeparator(position, buttonElement) {
-    if (separators.includes(position)) {
-        separators = separators.filter(p => p !== position);
-        buttonElement.textContent = '✂️';
-        buttonElement.style.background = '#ff6b6b';
-        buttonElement.style.transform = 'scale(1)';
-    } else {
-        separators.push(position);
-        buttonElement.textContent = '✅';
-        buttonElement.style.background = '#00b894';
-        buttonElement.style.transform = 'scale(1.1)';
+function removeFromSequence(index) {
+    const removedItem = game2UserSequence[index];
+    
+    if (removedItem.type === 'letter') {
+        const letterObj = game2Letters[removedItem.originalIndex];
+        letterObj.used = false;
+        
+        const letterBtn = document.querySelector(`[data-index="${removedItem.originalIndex}"]`);
+        letterBtn.style.background = 'linear-gradient(145deg, #ffeaa7, #fdcb6e)';
+        letterBtn.style.color = '#333';
+        letterBtn.style.cursor = 'pointer';
+        letterBtn.style.transform = 'scale(1)';
+        letterBtn.style.opacity = '1';
     }
     
-    separators.sort((a, b) => a - b);
-    updateWordDisplay();
+    game2UserSequence.splice(index, 1);
+    updateBuildingArea();
+    document.getElementById('btnCheck2').disabled = false;
 }
 
-function updateWordDisplay() {
-    const word = game2Words[game2Index];
-    const separationArea = document.getElementById('separationArea');
-    separationArea.innerHTML = '';
-    
+function getUserSyllablesFromSequence() {
+    const syllables = [];
     let currentSyllable = '';
-    let syllableCount = 0;
     
-    document.getElementById('wormSegments').innerHTML = '';
-    
-    for (let i = 0; i < word.palabra.length; i++) {
-        currentSyllable += word.palabra[i];
-        
-        if (separators.includes(i) || i === word.palabra.length - 1) {
-            const syllableDiv = document.createElement('div');
-            syllableDiv.className = 'syllable-part';
-            syllableDiv.textContent = currentSyllable;
-            syllableDiv.style.background = '#ffeaa7';
-            syllableDiv.style.color = '#333';
-            syllableDiv.style.padding = '15px 25px';
-            syllableDiv.style.borderRadius = '20px';
-            syllableDiv.style.fontSize = '28px';
-            syllableDiv.style.fontWeight = 'bold';
-            syllableDiv.style.border = '3px solid #fdcb6e';
-            syllableDiv.style.margin = '10px';
-            syllableDiv.style.boxShadow = '0 4px 15px rgba(253, 203, 110, 0.3)';
-            syllableDiv.style.animation = 'pop 0.5s ease';
-            separationArea.appendChild(syllableDiv);
-            
-            const wormSegment = document.createElement('div');
-            wormSegment.className = 'worm-segment';
-            wormSegment.textContent = '🟢';
-            wormSegment.style.fontSize = '40px';
-            wormSegment.style.animation = `segmentBounce 1.5s ease-in-out infinite ${syllableCount * 0.2}s`;
-            document.getElementById('wormSegments').appendChild(wormSegment);
-            
-            currentSyllable = '';
-            syllableCount++;
+    game2UserSequence.forEach(item => {
+        if (item.type === 'letter') {
+            currentSyllable += item.value;
+        } else if (item.type === 'separator') {
+            if (currentSyllable) {
+                syllables.push(currentSyllable);
+                currentSyllable = '';
+            }
         }
+    });
+    
+    if (currentSyllable) {
+        syllables.push(currentSyllable);
     }
+    
+    return syllables;
 }
 
-function resetSeparation() {
-    separators = [];
-    document.getElementById('btnCheck2').classList.remove('hidden');
-    document.getElementById('btnNext2').classList.add('hidden');
-    createWordWithButtons();
-    document.getElementById('separationArea').innerHTML = '';
-    document.getElementById('wormSegments').innerHTML = '';
+function checkAllLettersUsed() {
+    const allUsed = game2Letters.every(letter => letter.used);
+    if (allUsed && game2UserSequence.length > 0) {
+        document.getElementById('btnCheck2').disabled = false;
+    }
 }
 
 function checkSeparation() {
     const word = game2Words[game2Index];
-    const userSyllables = getSyllablesFromSeparators();
+    
+    const allLettersUsed = game2Letters.every(letter => letter.used);
+    if (!allLettersUsed) {
+        showErrorNotification('Debes usar todas las letras', "📝");
+        return;
+    }
+    
+    const userSyllables = getUserSyllablesFromSequence();
     const correctSyllables = word.silabas;
+    
+    const reconstructedWord = userSyllables.join('');
+    if (reconstructedWord !== word.palabra) {
+        showErrorNotification('La palabra no está completa o tiene letras incorrectas', "⚠️");
+        return;
+    }
     
     const isCorrect = JSON.stringify(userSyllables) === JSON.stringify(correctSyllables);
     
     if (isCorrect) {
-        showModal('¡Perfecto! El gusanito está feliz', "🐛✨", () => {
-            showSuccess2();
-            game2Correct++;
-        });
-    } else {
-        showModal('¡Inténtalo de nuevo! El gusanito necesita tu ayuda', "🐛💪", () => {
-            resetSeparation();
-        });
-    }
+    showSimpleNotification('¡Perfecto! El gusanito está feliz', "🐛✨");
+    createConfetti();
+    showSuccess2();
+    game2Correct++;
+} else {
+    showErrorNotification('¡Inténtalo de nuevo! Revisa la separación', "🐛💪");
+    resetSeparation();
+}
 }
 
-function getSyllablesFromSeparators() {
-    const word = game2Words[game2Index];
-    const syllables = [];
-    let currentSyllable = '';
-    
-    for (let i = 0; i < word.palabra.length; i++) {
-        currentSyllable += word.palabra[i];
-        
-        if (separators.includes(i) || i === word.palabra.length - 1) {
-            syllables.push(currentSyllable);
-            currentSyllable = '';
+function resetSeparation() {
+    game2Letters.forEach((letterObj, index) => {
+        letterObj.used = false;
+        const letterBtn = document.querySelector(`[data-index="${index}"]`);
+        if (letterBtn) {
+            letterBtn.style.background = 'linear-gradient(145deg, #ffeaa7, #fdcb6e)';
+            letterBtn.style.color = '#333';
+            letterBtn.style.cursor = 'pointer';
+            letterBtn.style.transform = 'scale(1)';
+            letterBtn.style.opacity = '1';
         }
-    }
+    });
     
-    return syllables;
+    game2UserSequence = [];
+    document.getElementById('btnCheck2').classList.remove('hidden');
+    document.getElementById('btnNext2').classList.add('hidden');
+    document.getElementById('btnCheck2').disabled = false;
+    document.getElementById('separationArea').innerHTML = '';
+    updateBuildingArea();
 }
 
 function showSuccess2() {
@@ -557,15 +978,25 @@ function showSuccess2() {
 
 function nextWord2() {
     game2Index++;
-    separators = [];
     loadWord2();
+}
+
+function resetUI2() {
+    document.getElementById('btnNext2').classList.add('hidden');
+    document.getElementById('btnCheck2').classList.remove('hidden');
+    document.getElementById('btnCheck2').disabled = true;
+}
+
+function updateUI2() {
+    document.getElementById('progressBar2').style.width = (game2Correct / game2Words.length) * 100 + '%';
+    document.getElementById('wordCounter2').textContent = `Palabra ${game2Index + 1} de ${game2Words.length}`;
 }
 
 // =================================
 // JUEGO 3: ¿CON QUÉ EMPIEZA?
 // =================================
 function initGame3() {
-    game3Words = shuffleArray([...palabrasJuego3]);
+    game3Words = shuffleArray([...palabrasJuego3]).slice(0, 5);
     game3Index = 0;
     game3Correct = 0;
     game3Type = 'inicio';
@@ -574,9 +1005,7 @@ function initGame3() {
 
 function loadQuestion() {
     if (game3Index >= game3Words.length * 2) {
-        showModal('¡Detective excelente! Has completado todas las investigaciones', "🔍🏆", () => {
-            goToWelcome();
-        });
+        showGameCompletionModal(3);
         return;
     }
 
@@ -611,7 +1040,6 @@ function createSyllableOptions(word) {
     
     const correctAnswer = game3Type === 'inicio' ? word.inicio : word.final;
     
-    // Crear 8 opciones para mayor desafío
     const allSyllables = [];
     game3Words.forEach(w => {
         allSyllables.push(w.inicio, w.final);
@@ -668,29 +1096,25 @@ function selectSyllableOption(selected, correct, element) {
     const options = document.querySelectorAll('.syllable-bubble');
     options.forEach(opt => opt.style.pointerEvents = 'none');
     
-    if (selected === correct) {
-        createBubbleExplosion(element, true);
-        showModal('¡Detective excelente!', "🕵️✨", () => {
-            game3Correct++;
-            setTimeout(() => {
-                nextQuestion();
-            }, 500);
-        });
-    } else {
-        createBubbleExplosion(element, false);
+   if (selected === correct) {
+    createBubbleExplosion(element, true);
+    showSimpleNotification('¡Detective excelente!', "🕵️✨");
+    createConfetti();
+    game3Correct++;
+    setTimeout(() => {
+        nextQuestion();
+    }, 1000);
+} else {
+    createBubbleExplosion(element, false);
+    showErrorNotification('¡Sigue investigando! Inténtalo de nuevo', "🔍💪");
+    setTimeout(() => {
         options.forEach(opt => {
-            if (opt.textContent === correct) {
-                setTimeout(() => {
-                    createBubbleExplosion(opt, true);
-                }, 500);
-            }
+            opt.style.pointerEvents = 'auto';
+            opt.style.background = opt.style.background;
+            opt.style.transform = 'scale(1)';
         });
-        showModal('¡Sigue investigando!', "🔍💪", () => {
-            setTimeout(() => {
-                nextQuestion();
-            }, 500);
-        });
-    }
+    }, 1500);
+}
 }
 
 function createBubbleExplosion(element, isCorrect) {
@@ -763,7 +1187,7 @@ function nextQuestion() {
 // JUEGO 4: LA PECERA SILÁBICA
 // =================================
 function initGame4() {
-    game4Words = shuffleArray([...palabrasJuego4]);
+    game4Words = shuffleArray([...palabrasJuego4]).slice(0, 10);
     game4Index = 0;
     game4Correct = 0;
     loadFish();
@@ -779,9 +1203,7 @@ function setupAquariums() {
 
 function loadFish() {
     if (game4Index >= game4Words.length) {
-        showModal('¡Todos los peces están felices en sus peceras!', "🐠🎉", () => {
-            goToWelcome();
-        });
+        showGameCompletionModal(4);
         return;
     }
 
@@ -810,29 +1232,26 @@ function placeFishInAquarium(selectedSyllables) {
     
     const aquariums = document.querySelectorAll('.aquarium');
     aquariums.forEach(aquarium => aquarium.style.pointerEvents = 'none');
-    
     if (selectedSyllables === correctSyllables) {
-        const correctAquarium = document.querySelector(`[data-syllables="${selectedSyllables}"]`);
-        correctAquarium.classList.add('correct');
-        showModal('¡El pez está feliz en su pecera!', "🐠✨", () => {
-            game4Correct++;
-            setTimeout(() => {
-                nextFish();
-            }, 500);
+    const correctAquarium = document.querySelector(`[data-syllables="${selectedSyllables}"]`);
+    correctAquarium.classList.add('correct');
+    showSimpleNotification('¡El pez está feliz en su pecera!', "🐠✨");
+    createConfetti();
+    game4Correct++;
+    setTimeout(() => {
+        nextFish();
+    }, 1000);
+} else {
+    const selectedAquarium = document.querySelector(`[data-syllables="${selectedSyllables}"]`);
+    selectedAquarium.classList.add('incorrect');
+    showErrorNotification('¡Ese pez necesita otra pecera! Inténtalo de nuevo', "🐟💪");
+    setTimeout(() => {
+        aquariums.forEach(aquarium => {
+            aquarium.classList.remove('correct', 'incorrect');
+            aquarium.style.pointerEvents = 'auto';
         });
-        createConfetti();
-    } else {
-        const selectedAquarium = document.querySelector(`[data-syllables="${selectedSyllables}"]`);
-        const correctAquarium = document.querySelector(`[data-syllables="${correctSyllables}"]`);
-        
-        selectedAquarium.classList.add('incorrect');
-        correctAquarium.classList.add('correct');
-        showModal('¡Ese pez necesita otra pecera!', "🐟💪", () => {
-            setTimeout(() => {
-                nextFish();
-            }, 500);
-        });
-    }
+    }, 1500);
+}
 }
 
 function nextFish() {
@@ -840,225 +1259,105 @@ function nextFish() {
     loadFish();
 }
 
-// UTILIDADES ADICIONALES
-function addSwimmingAnimation() {
-    const swimmingFishes = document.querySelectorAll('.swimming-fish');
-    swimmingFishes.forEach((fish, index) => {
-        fish.style.animationDelay = `${index * 0.5}s`;
-    });
+// =============================================
+// MODAL Y FUNCIONES DE CAMBIO DE FONDO
+// =============================================
+function showModal(message, emoji = "🎉", callback = null) {
+    const modal = document.getElementById("customModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const modalEmoji = document.getElementById("modalEmoji");
+    const modalBtn = document.getElementById("modalBtn");
+
+    modalMessage.textContent = message;
+    modalEmoji.textContent = emoji;
+
+    modal.classList.remove("hidden");
+    createModalConfetti();
+
+    modalBtn.onclick = () => {
+        modal.classList.add("hidden");
+        if (callback) callback();
+    };
 }
 
-function createSuccessAnimation(element) {
-    element.style.animation = 'bounce 0.6s ease-in-out';
-    setTimeout(() => {
-        element.style.animation = '';
-    }, 600);
-}
-
-function createErrorAnimation(element) {
-    element.style.animation = 'shake 0.5s ease-in-out';
-    setTimeout(() => {
-        element.style.animation = '';
-    }, 500);
-}
-
-// Función para crear efectos de partículas mejorados
-function createEnhancedConfetti() {
+function createModalConfetti() {
     const colors = ['#FF6B9D', '#4ECDC4', '#45B7D1', '#FFEAA7', '#6C5CE7', '#00B894', '#FF7675', '#A29BFE', '#FD79A8', '#FDCB6E'];
-    const shapes = ['circle', 'square', 'triangle'];
     
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 30; i++) {
         setTimeout(() => {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
-            
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            const shape = shapes[Math.floor(Math.random() * shapes.length)];
-            
-            confetti.style.background = color;
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
             confetti.style.left = Math.random() * 100 + '%';
             confetti.style.animationDelay = '0s';
-            confetti.style.animationDuration = Math.random() * 2 + 3 + 's';
-            confetti.style.width = Math.random() * 12 + 8 + 'px';
-            confetti.style.height = confetti.style.width;
-            
-            switch(shape) {
-                case 'circle':
-                    confetti.style.borderRadius = '50%';
-                    break;
-                case 'square':
-                    confetti.style.borderRadius = '0%';
-                    break;
-                case 'triangle':
-                    confetti.style.width = '0';
-                    confetti.style.height = '0';
-                    confetti.style.borderLeft = '8px solid transparent';
-                    confetti.style.borderRight = '8px solid transparent';
-                    confetti.style.borderBottom = `16px solid ${color}`;
-                    confetti.style.background = 'transparent';
-                    break;
-            }
-            
+            confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
+            confetti.style.borderRadius = Math.random() > 0.3 ? '50%' : '20%';
             document.body.appendChild(confetti);
             
             setTimeout(() => {
                 if (confetti.parentNode) {
                     confetti.remove();
                 }
-            }, 5000);
-        }, i * 25);
+            }, 4000);
+        }, i * 50);
     }
 }
 
-// Función para sonidos simulados con emojis
-function playSuccessSound() {
-    // Crear elemento visual para simular sonido
-    const soundElement = document.createElement('div');
-    soundElement.textContent = '🎵';
-    soundElement.style.position = 'fixed';
-    soundElement.style.top = '20px';
-    soundElement.style.right = '20px';
-    soundElement.style.fontSize = '30px';
-    soundElement.style.zIndex = '10000';
-    soundElement.style.animation = 'bounce 0.5s ease-in-out';
-    document.body.appendChild(soundElement);
+function changeBackground(gameNumber) {
+    const body = document.body;
     
-    setTimeout(() => {
-        if (soundElement.parentNode) {
-            soundElement.remove();
-        }
-    }, 500);
+    body.classList.remove('welcome-bg', 'game1-bg', 'game2-bg', 'game3-bg', 'game4-bg');
+    
+    if (gameNumber === 'welcome') {
+        body.classList.add('welcome-bg');
+    } else {
+        body.classList.add(`game${gameNumber}-bg`);
+    }
 }
 
-function playErrorSound() {
-    const soundElement = document.createElement('div');
-    soundElement.textContent = '🔊';
-    soundElement.style.position = 'fixed';
-    soundElement.style.top = '20px';
-    soundElement.style.right = '20px';
-    soundElement.style.fontSize = '30px';
-    soundElement.style.zIndex = '10000';
-    soundElement.style.animation = 'shake 0.5s ease-in-out';
-    document.body.appendChild(soundElement);
+// =============================================
+// BOTÓN PARA FLUJO COMPLETO DE JUEGOS
+// =============================================
+function addGameFlowButton() {
+    const welcomePage = document.getElementById('welcomePage');
     
-    setTimeout(() => {
-        if (soundElement.parentNode) {
-            soundElement.remove();
-        }
-    }, 500);
-}
-
-// Función para guardar progreso (simulado)
-function saveProgress() {
-    const progress = {
-        game1Level: currentLevel,
-        game1Words: correctWords,
-        game2Progress: game2Correct,
-        game3Progress: game3Correct,
-        game4Progress: game4Correct
+    
+   
+    
+    flowButton.onclick = startGameFlow;
+    flowButton.onmouseover = () => {
+        flowButton.style.transform = 'scale(1.05) translateY(-3px)';
+        flowButton.style.boxShadow = '0 12px 30px rgba(102, 126, 234, 0.6)';
+    };
+    flowButton.onmouseout = () => {
+        flowButton.style.transform = 'scale(1) translateY(0px)';
+        flowButton.style.boxShadow = '0 8px 20px rgba(102, 126, 234, 0.4)';
     };
     
-    // En un entorno real, esto se guardaría en localStorage
-    console.log('Progreso guardado:', progress);
+    const title = welcomePage.querySelector('h1');
+    title.parentNode.insertBefore(flowButton, title.nextSibling);
 }
 
-// Función para mostrar estadísticas
-function showStats() {
-    const totalQuestions = game3Words.length * 2;
-    const game3Percentage = Math.round((game3Correct / totalQuestions) * 100) || 0;
-    const game4Percentage = Math.round((game4Correct / game4Words.length) * 100) || 0;
-    
-    const statsMessage = `
-        📊 Estadísticas:
-        Juego 1: Nivel ${currentLevel}
-        Juego 2: ${game2Correct} palabras separadas
-        Juego 3: ${game3Percentage}% de acierto
-        Juego 4: ${game4Percentage}% de peces ubicados
-    `;
-    
-    showModal(statsMessage, "📈");
-}
-
-// Función de hints/pistas
-function showHint(gameType) {
-    const hints = {
-        1: "💡 Pista: Escucha la palabra en tu mente y sepárala en pedacitos",
-        2: "💡 Pista: Di la palabra despacio y marca donde haces pausas",
-        3: "💡 Pista: Pronuncia la palabra y fíjate en el primer/último sonido",
-        4: "💡 Pista: Cuenta golpeando la mesa por cada parte de la palabra"
-    };
-    
-    showModal(hints[gameType] || "¡Tú puedes hacerlo!", "💡");
-}
-
-// Función para reiniciar juego específico
-function restartGame(gameNumber) {
-    switch(gameNumber) {
-        case 1:
-            currentLevel = 1;
-            currentWordIndex = 0;
-            correctWords = 0;
-            break;
-        case 2:
-            game2Index = 0;
-            game2Correct = 0;
-            break;
-        case 3:
-            game3Index = 0;
-            game3Correct = 0;
-            break;
-        case 4:
-            game4Index = 0;
-            game4Correct = 0;
-            break;
-    }
-    
-    startGame(gameNumber);
-}
-
-// Función para modo nocturno (opcional)
-function toggleNightMode() {
-    document.body.classList.toggle('night-mode');
-    const isNightMode = document.body.classList.contains('night-mode');
-    showModal(isNightMode ? "Modo nocturno activado" : "Modo día activado", "🌙");
-}
-
-// Event listeners adicionales
-document.addEventListener('keydown', function(event) {
-    // Atajos de teclado opcionales
-    if (event.key === 'Escape') {
-        const modal = document.getElementById('customModal');
-        if (!modal.classList.contains('hidden')) {
-            modal.classList.add('hidden');
-        }
-    }
-});
-
-// Prevenir zoom accidental en dispositivos táctiles
-document.addEventListener('gesturestart', function (e) {
-    e.preventDefault();
-});
-
-document.addEventListener('gesturechange', function (e) {
-    e.preventDefault();
-});
-
-document.addEventListener('gestureend', function (e) {
-    e.preventDefault();
-});
-
-// INICIALIZACIÓN MEJORADA
+// =============================================
+// INICIALIZACIÓN
+// =============================================
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🎮 Sílabas Al Rescate cargado correctamente');
-    
-    // Inicializar animaciones de los peces en las peceras
-    setTimeout(() => {
-        addSwimmingAnimation();
-    }, 1000);
-    
-    // Mostrar mensaje de bienvenida después de cargar
-    
+    changeBackground('welcome');
+    addGameFlowButton();
+    console.log('Sistema de juegos conectados cargado correctamente');
 });
+
+// Limpiar elementos cada 30 segundos para optimizar rendimiento
+function optimizePerformance() {
+    const unusedElements = document.querySelectorAll('.confetti');
+    unusedElements.forEach(element => {
+        if (element.parentNode) {
+            element.remove();
+        }
+    });
+}
+
+setInterval(optimizePerformance, 30000);
 
 // Función para optimizar el rendimiento
 function optimizePerformance() {
@@ -1116,103 +1415,134 @@ function createModalConfetti() {
   }
 }
 
-// DATOS AMPLIADOS DE LOS JUEGOS
-const palabrasData = {
-    1: [ 
-        { palabra: "casa", silabas: ["ca", "sa"], emoji: "🏠" },
-        { palabra: "gato", silabas: ["ga", "to"], emoji: "🐱" },
-        { palabra: "luna", silabas: ["lu", "na"], emoji: "🌙" },
-        { palabra: "agua", silabas: ["a", "gua"], emoji: "💧" },
-        { palabra: "mesa", silabas: ["me", "sa"], emoji: "🪑" },
-        { palabra: "pato", silabas: ["pa", "to"], emoji: "🦆" },
-        { palabra: "rosa", silabas: ["ro", "sa"], emoji: "🌹" },
-        { palabra: "boca", silabas: ["bo", "ca"], emoji: "👄" },
-        { palabra: "león", silabas: ["le", "ón"], emoji: "🦁" },
-        { palabra: "pera", silabas: ["pe", "ra"], emoji: "🍐" },
-        { palabra: "polo", silabas: ["po", "lo"], emoji: "🍭" },
-        { palabra: "vaca", silabas: ["va", "ca"], emoji: "🐄" },
-        { palabra: "dedo", silabas: ["de", "do"], emoji: "👉" },
-        { palabra: "cama", silabas: ["ca", "ma"], emoji: "🛏️" },
-        { palabra: "nube", silabas: ["nu", "be"], emoji: "☁️" }
-    ],
-    2: [ 
-        { palabra: "pelota", silabas: ["pe", "lo", "ta"], emoji: "⚽" },
-        { palabra: "banana", silabas: ["ba", "na", "na"], emoji: "🍌" },
-        { palabra: "camisa", silabas: ["ca", "mi", "sa"], emoji: "👕" },
-        { palabra: "ventana", silabas: ["ven", "ta", "na"], emoji: "🪟" },
-        { palabra: "cabeza", silabas: ["ca", "be", "za"], emoji: "👤" },
-        { palabra: "zapato", silabas: ["za", "pa", "to"], emoji: "👟" },
-        { palabra: "paloma", silabas: ["pa", "lo", "ma"], emoji: "🕊️" },
-        { palabra: "conejo", silabas: ["co", "ne", "jo"], emoji: "🐰" },
-        { palabra: "tomate", silabas: ["to", "ma", "te"], emoji: "🍅" },
-        { palabra: "naranja", silabas: ["na", "ran", "ja"], emoji: "🍊" },
-        { palabra: "cebolla", silabas: ["ce", "bo", "lla"], emoji: "🧅" },
-        { palabra: "patata", silabas: ["pa", "ta", "ta"], emoji: "🥔" },
-        { palabra: "comida", silabas: ["co", "mi", "da"], emoji: "🍽️" },
-        { palabra: "abrigo", silabas: ["a", "bri", "go"], emoji: "🧥" },
-        { palabra: "ratón", silabas: ["ra", "tón"], emoji: "🐭" }
-    ],
-    3: [ 
-        { palabra: "mariposa", silabas: ["ma", "ri", "po", "sa"], emoji: "🦋" },
-        { palabra: "elefante", silabas: ["e", "le", "fan", "te"], emoji: "🐘" },
-        { palabra: "dinosaurio", silabas: ["di", "no", "sau", "rio"], emoji: "🦕" },
-        { palabra: "hamburguesa", silabas: ["ham", "bur", "gue", "sa"], emoji: "🍔" },
-        { palabra: "medicina", silabas: ["me", "di", "ci", "na"], emoji: "💊" },
-        { palabra: "bicicleta", silabas: ["bi", "ci", "cle", "ta"], emoji: "🚲" },
-        { palabra: "americana", silabas: ["a", "me", "ri", "ca", "na"], emoji: "🇺🇸" },
-        { palabra: "policía", silabas: ["po", "li", "cí", "a"], emoji: "👮" },
-        { palabra: "teléfono", silabas: ["te", "lé", "fo", "no"], emoji: "📞" },
-        { palabra: "chocolate", silabas: ["cho", "co", "la", "te"], emoji: "🍫" },
-        { palabra: "hospital", silabas: ["hos", "pi", "tal"], emoji: "🏥" },
-        { palabra: "caramelo", silabas: ["ca", "ra", "me", "lo"], emoji: "🍬" },
-        { palabra: "pijama", silabas: ["pi", "ja", "ma"], emoji: "👕" },
-        { palabra: "fantasma", silabas: ["fan", "tas", "ma"], emoji: "👻" }
-    ],
-    4: [ 
-        { palabra: "refrigerador", silabas: ["re", "fri", "ge", "ra", "dor"], emoji: "❄️" },
-        { palabra: "computadora", silabas: ["com", "pu", "ta", "do", "ra"], emoji: "💻" },
-        { palabra: "biblioteca", silabas: ["bi", "blio", "te", "ca"], emoji: "📚" },
-        { palabra: "televisión", silabas: ["te", "le", "vi", "sión"], emoji: "📺" },
-        { palabra: "automóvil", silabas: ["au", "to", "mó", "vil"], emoji: "🚗" },
-        { palabra: "universidad", silabas: ["u", "ni", "ver", "si", "dad"], emoji: "🎓" },
-        { palabra: "electricidad", silabas: ["e", "lec", "tri", "ci", "dad"], emoji: "⚡" },
-        { palabra: "helicoptero", silabas: ["he", "li", "cóp", "te", "ro"], emoji: "🚁" },
-        { palabra: "supermercado", silabas: ["su", "per", "mer", "ca", "do"], emoji: "🛒" },
-        { palabra: "escalera", silabas: ["es", "ca", "le", "ra"], emoji: "🪜" }
-    ]
-};
 
-// Palabras ampliadas para juego 2
-const palabrasJuego2 = [
-    { palabra: "CASA", silabas: ["CA", "SA"] },
-    { palabra: "GATO", silabas: ["GA", "TO"] },
-    { palabra: "LUNA", silabas: ["LU", "NA"] },
-    { palabra: "MESA", silabas: ["ME", "SA"] },
-    { palabra: "ROSA", silabas: ["RO", "SA"] },
-    { palabra: "PELOTA", silabas: ["PE", "LO", "TA"] },
-    { palabra: "BANANA", silabas: ["BA", "NA", "NA"] },
-    { palabra: "CAMISA", silabas: ["CA", "MI", "SA"] },
-    { palabra: "ZAPATO", silabas: ["ZA", "PA", "TO"] },
-    { palabra: "CONEJO", silabas: ["CO", "NE", "JO"] },
-    { palabra: "MARIPOSA", silabas: ["MA", "RI", "PO", "SA"] },
-    { palabra: "ELEFANTE", silabas: ["E", "LE", "FAN", "TE"] },
-    { palabra: "CHOCOLATE", silabas: ["CHO", "CO", "LA", "TE"] },
-    { palabra: "CARAMELO", silabas: ["CA", "RA", "ME", "LO"] },
-    { palabra: "HOSPITAL", silabas: ["HOS", "PI", "TAL"] }
-];
 
-// Palabras ampliadas para juego 3 (20+ palabras)
-const palabrasJuego3 = [
-    { palabra: "CASA", silabas: ["ca", "sa"], emoji: "🏠", inicio: "ca", final: "sa" },
-    { palabra: "GATO", silabas: ["ga", "to"], emoji: "🐱", inicio: "ga", final: "to" },
-    { palabra: "LUNA", silabas: ["lu", "na"], emoji: "🌙", inicio: "lu", final: "na" },
-    { palabra: "PATO", silabas: ["pa", "to"], emoji: "🦆", inicio: "pa", final: "to" },
-    { palabra: "ROSA", silabas: ["ro", "sa"], emoji: "🌹", inicio: "ro", final: "sa" },
-    { palabra: "MESA", silabas: ["me", "sa"], emoji: "🪑", inicio: "me", final: "sa" },
-    { palabra: "VACA", silabas: ["va", "ca"], emoji: "🐄", inicio: "va", final: "ca" },
-    { palabra: "DEDO", silabas: ["de", "do"], emoji: "👉", inicio: "de", final: "do" },
-    { palabra: "NUBE", silabas: ["nu", "be"], emoji: "☁️", inicio: "nu", final: "be" },
-    { palabra: "PELOTA", silabas: ["pe", "lo", "ta"], emoji: "⚽", inicio: "pe", final: "ta" },
-    { palabra: "BANANA", silabas: ["ba", "na", "na"], emoji: "🍌", inicio: "ba", final: "na" },
-    { palabra: "CAMISA", silabas: ["ca", "mi", "sa"], emoji: "👕", inicio: "ca", final: "sa" },
-]
+// FUNCIÓN PARA CAMBIAR FONDOS
+function changeBackground(gameNumber) {
+    const body = document.body;
+    
+    // Remover todas las clases de fondo
+    body.classList.remove('welcome-bg', 'game1-bg', 'game2-bg', 'game3-bg', 'game4-bg');
+    
+    // Agregar la clase correspondiente
+    if (gameNumber === 'welcome') {
+        body.classList.add('welcome-bg');
+    } else {
+        body.classList.add(`game${gameNumber}-bg`);
+    }
+    
+    console.log(`Fondo cambiado a: game${gameNumber}-bg`); // Para depurar
+}
+
+// Función para notificación simple - VERSIÓN ESTABLE SIN ANIMACIONES CONFLICTIVAS
+function showSimpleNotification(message, emoji = "🎉") {
+    // Remover notificación anterior si existe
+    const existingNotification = document.querySelector('.game-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    const notification = document.createElement('div');
+    notification.className = 'game-notification';
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #00b894, #55efc4);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        box-shadow: 0 10px 30px rgba(0, 184, 148, 0.4);
+        z-index: 9998;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    `;
+    
+    notification.innerHTML = `
+        <span style="font-size: 24px;">${emoji}</span>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Mostrar la notificación
+    setTimeout(() => {
+        notification.style.opacity = '1';
+    }, 100);
+    
+    // Empezar a desvanecer después de 9 segundos
+    setTimeout(() => {
+        notification.style.opacity = '0';
+    }, 3000);
+    
+    // Eliminar después de 10 segundos
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+function showErrorNotification(message, emoji = "⚠️") {
+    // Remover notificación anterior si existe
+    const existingNotification = document.querySelector('.game-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    const notification = document.createElement('div');
+    notification.className = 'game-notification';
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #b33838ff, #b35656ff);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        box-shadow: 0 10px 30px rgba(255, 0, 0, 0.75);
+        z-index: 9998;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    `;
+    
+    notification.innerHTML = `
+        <span style="font-size: 24px;">${emoji}</span>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Mostrar la notificación
+    setTimeout(() => {
+        notification.style.opacity = '1';
+    }, 100);
+    
+    // Empezar a desvanecer después de 3 segundos
+    setTimeout(() => {
+        notification.style.opacity = '0';
+    }, 3000);
+    
+    // Eliminar después de 5 segundos
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
+}
