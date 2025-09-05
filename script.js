@@ -939,12 +939,12 @@ function checkSeparation() {
     const isCorrect = JSON.stringify(userSyllables) === JSON.stringify(correctSyllables);
     
     if (isCorrect) {
-    showSimpleNotification('¡Perfecto! El gusanito está feliz', "🐛✨");
+    showSimpleNotification('¡Excelente trabajo! Has separado correctamente las sílabas', "✅✨");
     createConfetti();
     showSuccess2();
     game2Correct++;
 } else {
-    showErrorNotification('¡Inténtalo de nuevo! Revisa la separación', "🐛💪");
+    showErrorNotification('¡Inténtalo de nuevo! Revisa la separación de las sílabas', "📚🔍");
     resetSeparation();
 }
 }
