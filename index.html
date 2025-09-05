@@ -8,6 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -42,7 +44,7 @@
         </div>
 
         <div class="game-card game-2" onclick="showGameIntro(2)">
-          <div class="game-icon">🐛</div>
+          <div class="game-icon">🔤</div>
           <h3>Juego 2</h3>
           <p>Separa en Sílabas</p>
           <div class="difficulty">Divide palabras</div>
@@ -94,8 +96,8 @@
     <!-- INTRODUCCIÓN JUEGO 1 -->
     <div id="game1Intro" class="game-intro">
       <div class="intro-header">
-        <div class="intro-icon bouncing">🧩</div>
-        <h1 class="intro-title">¡Forma la Palabra!</h1>
+       
+         <img class="intro-title" src="titulojuego1.png">
         <div class="intro-decoration">
           <span class="floating-emoji">✨</span>
           <span class="floating-emoji">🎯</span>
@@ -147,66 +149,67 @@
     </div>
 
     <!-- INTRODUCCIÓN JUEGO 2 -->
-    <div id="game2Intro" class="game-intro">
-      <div class="intro-header">
-        <div class="intro-icon wiggling">🐛</div>
-        <h1 class="intro-title">¡Separa en Sílabas!</h1>
-        <div class="intro-decoration">
-          <span class="floating-emoji">✂️</span>
-          <span class="floating-emoji">🌈</span>
-          <span class="floating-emoji">💫</span>
-        </div>
-      </div>
+<div id="game2Intro" class="game-intro">
+  <div class="intro-header">
+   
+    <img class="intro-title" src="titulojuego2.png"/>
+    <div class="intro-decoration">
+      <span class="floating-emoji">🔧</span>
+      <span class="floating-emoji">⚡</span>
+      <span class="floating-emoji">🎯</span>
+    </div>
+  </div>
 
-      <div class="intro-description">
-        <p>¡Ayuda al gusanito a dividir las palabras! Usa las tijeras mágicas para cortar las palabras en sus sílabas. Cada corte correcto hará que el gusanito crezca un segmento más.</p>
-      </div>
+  <div class="intro-description">
+    <p>¡Conviértete en un arquitecto de palabras! Tu misión es tomar todas las letras de una palabra y reorganizarlas para separarlas correctamente en sílabas. ¡Usa el separador mágico para dividir cada sílaba!</p>
+  </div>
 
-      <div class="intro-preview">
-        <div class="preview-word-separation">
-          <span class="word-part">CA</span>
-          <span class="separator-demo">✂️</span>
-          <span class="word-part">SA</span>
-        </div>
-        <div class="worm-demo">
-          <span class="worm-segment">🟢</span>
-          <span class="worm-segment">🟢</span>
-        </div>
-      </div>
+  <div class="intro-preview">
+    <div class="preview-word-separation">
+      <span class="word-part">C</span>
+      <span class="word-part">A</span>
+      <span class="word-part">S</span>
+      <span class="word-part">A</span>
+      <span class="separator-demo">-</span>
+    </div>
+    <div class="worm-demo">
+      <span class="worm-segment">CA - SA</span>
+    </div>
+  </div>
 
-      <div class="instructions">
-        <h3>📖 ¿Cómo jugar?</h3>
-        <div class="instruction-steps">
-          <div class="step">
-            <span class="step-number">1️⃣</span>
-            <span>Lee la palabra completa</span>
-          </div>
-          <div class="step">
-            <span class="step-number">2️⃣</span>
-            <span>Haz clic en las tijeras para separar</span>
-          </div>
-          <div class="step">
-            <span class="step-number">3️⃣</span>
-            <span>Divide la palabra en sílabas</span>
-          </div>
-          <div class="step">
-            <span class="step-number">4️⃣</span>
-            <span>¡Verifica tu respuesta!</span>
-          </div>
-        </div>
+  <div class="instructions">
+    <h3>📖 ¿Cómo jugar?</h3>
+    <div class="instruction-steps">
+      <div class="step">
+        <span class="step-number">1️⃣</span>
+        <span>Observa todas las letras disponibles</span>
       </div>
-
-      <div class="intro-buttons">
-        <button class="btn btn-play" onclick="startGame(2)">🚀 ¡Jugar Ahora!</button>
-        <button class="btn btn-back-intro" onclick="goToWelcome()">🏠 Volver</button>
+      <div class="step">
+        <span class="step-number">2️⃣</span>
+        <span>Haz clic en las letras para formar la primera sílaba</span>
+      </div>
+      <div class="step">
+        <span class="step-number">3️⃣</span>
+        <span>Usa el botón separador (-) para dividir las sílabas</span>
+      </div>
+      <div class="step">
+        <span class="step-number">4️⃣</span>
+        <span>Completa todas las letras y verifica tu construcción</span>
       </div>
     </div>
+  </div>
+
+  <div class="intro-buttons">
+    <button class="btn btn-play" onclick="startGame(2)">🚀 ¡Jugar Ahora!</button>
+    <button class="btn btn-back-intro" onclick="goToWelcome()">🏠 Volver</button>
+  </div>
+</div>
 
     <!-- INTRODUCCIÓN JUEGO 3 -->
     <div id="game3Intro" class="game-intro">
       <div class="intro-header">
-        <div class="intro-icon rotating">🔍</div>
-        <h1 class="intro-title">¡Detective de Sílabas!</h1>
+       
+     <img class="intro-title" src="titulojuego3.png"/>
         <div class="intro-decoration">
           <span class="floating-emoji">🕵️</span>
           <span class="floating-emoji">❓</span>
@@ -261,8 +264,8 @@
     <!-- INTRODUCCIÓN JUEGO 4 -->
     <div id="game4Intro" class="game-intro">
       <div class="intro-header">
-        <div class="intro-icon swimming">🐠</div>
-        <h1 class="intro-title">¡La Pecera Silábica!</h1>
+       
+       <img class="intro-title" src="titulojuego4.png"/>
         <div class="intro-decoration">
           <span class="floating-emoji">🌊</span>
           <span class="floating-emoji">🐟</span>
@@ -353,8 +356,8 @@
 
       <div class="game-area">
         <div class="worm-container">
-          <div class="worm-head">🐛</div>
-          <div class="instruction-text">¡Ayuda al gusanito a dividir la palabra!</div>
+          <div class="worm-head">🔤</div>
+          <div class="instruction-text"></div>
         </div>
         
         <div class="word-to-separate" id="wordToSeparate">CASA</div>
